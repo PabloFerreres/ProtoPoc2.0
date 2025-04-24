@@ -1,33 +1,24 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import React, { useState } from "react";
+import AgGridTable from "./AgGridTable";
+import MasterTable from "./MasterTable";
 
 function App() {
-  const [projects, setProjects] = useState([]);
-  const [selected, setSelected] = useState("");
-  const [rowData, setRowData] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/projects").then(res => setProjects(res.data));
-  }, []);
-
-  useEffect(() => {
-    if (selected)
-      axios.get(`http://localhost:8000/project/${selected}`).then(res => setRowData(res.data));
-  }, [selected]);
+  const [view, setView] = useState("project");
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 600 }}>
-      <h2>Projekt-Auswahl</h2>
-      <select onChange={(e) => setSelected(e.target.value)} value={selected}>
-        <option value="">Projekt wählen</option>
-        {projects.map(p => (
-          <option key={p} value={p}>{p}</option>
-        ))}
-      </select>
-      <AgGridReact rowData={rowData} columnDefs={rowData[0] ? Object.keys(rowData[0]).map(k => ({ field: k })) : []} />
+    <div>
+      <h1>ProtoPoC – Tabellenansicht</h1>
+      <div style={{ marginBottom: "16px" }}>
+        <button onClick={() => setView("project")} style={{ marginRight: 8 }}>
+          📋 Projektliste
+        </button>
+        <button onClick={() => setView("master")}>
+          🧱 Mastertabelle
+        </button>
+      </div>
+
+      {view === "project" && <AgGridTable />}
+      {view === "master" && <MasterTable />}
     </div>
   );
 }

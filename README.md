@@ -1,71 +1,72 @@
-<<<<<<< HEAD
+
 # ProtoPoC
-=======
 
-# ProtoPoC – Bauteil-Datenbank-Prototyp
-
-**ProtoPoC** (Prototype Proof of Concept) ist ein Python-basiertes Tool zum Importieren, Strukturieren und Analysieren von technischen Bauteillisten aus Excel-Dateien (.xlsm). Es nutzt eine SQLite-Datenbank, um Bauteilarten zentral zu speichern und projektbezogene Verwendungen zu verknüpfen.
-
----
-
-## 🔧 Funktionen des aktuellen Prototyps (Meilenstein 1)
-
-- Import aus `.xlsm`-Dateien (z. B. `Moria1000.xlsm`)
-- Trennung von:
-  - **Statischen Bauteildaten** → `Bauteile_Master`
-  - **Projektdaten je Bauteil** → `Projekt_Bauteile`
-- Automatische Vergabe von `call_id`s pro Bauteilart
-- Zentrale Definition von Systemregeln (`system_rules.json`)
-- Dokumentation und Visualisierung (`docs/`)
-
----
-
-## 🧪 Setup & Ausführung
-
-### Voraussetzungen
-- Python 3.8+
-- Installierte Pakete:
-  ```bash
-  pip install pandas openpyxl
-  ```
-
-### Ausführen des Imports:
-```bash
-python src/import_arma.py
-```
-
-Das Script:
-1. Liest die `.xlsm`-Datei im `data/`-Ordner
-2. Schreibt alle Daten in die Datenbank `db/moria.db`
-3. Erstellt Tabellen:
-   - `Arma_Import`
-   - `Bauteile_Master`
-   - `Projekt_Bauteile`
+**ProtoPoC** ist eine modulare Plattform zur Verwaltung, Bearbeitung und Visualisierung von Projektkomponenten (z. B. Armaturenlisten) mit vollständiger Trennung zwischen Datenimport, API und Benutzeroberfläche.
 
 ---
 
 ## 📁 Projektstruktur
 
-```
+```bash
 ProtoPoC/
-├── data/                # Originaldaten (Excel, CSV)
+├── backend/             # FastAPI – REST API für Projekte & Bauteile
+├── frontend/            # React + AgGrid – UI im Excel-Stil
+├── data/                # Excel-Dateien (.xlsm)
 ├── db/                  # SQLite-Datenbank
-├── docs/                # Visualisierungen, Diagramme
-├── rules/               # Regeln als JSON & Text
-├── src/                 # Python-Code (Import etc.)
-└── README.md            # Diese Datei
+│   └── LordOfRings.db
+├── requirements.txt     # Python-Abhängigkeiten für Backend
+└── README.md
 ```
 
 ---
 
-## 🧠 Nächste Schritte (geplant)
-- Benutzerrollen & Bearbeitungssperren
-- Revisionsverwaltung
-- Vergleich über mehrere Projekte
-- Visuelle Oberfläche (z. B. mit Streamlit)
+## 🚀 Funktionen
+
+- Automatischer Import von Excel-Daten in SQLite
+- Trennung von Master- und Projekt-Bauteilen
+- API-Schnittstelle für externe Zugriffe (z. B. React-UI)
+- Web-UI im Excel-Stil mit AgGrid (Bearbeitung möglich)
+- Projektübergreifende Analyse und Revisionsplanung möglich
 
 ---
 
-## 🧑‍💻 Autor & Betreuung
-Dieses Projekt wurde Schritt für Schritt mit Unterstützung durch KI gebaut und dient als Lern- und Praxisprojekt.
->>>>>>> 0a41516 (Initial upload)
+## 🧑‍💻 Lokale Entwicklung
+
+### 1. Backend starten (FastAPI)
+
+```bash
+cd backend
+uvicorn main:app --reload
+```
+
+Erreichbar unter: [http://localhost:8000](http://localhost:8000)  
+Dokumentation: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+### 2. Frontend starten (React)
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Öffnet die Web-App unter [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 📦 Noch geplant
+
+- Benutzerrollen & Login
+- Revisionsverfolgung mit History
+- Vergleich mehrerer Projektstände
+- Automatisierter Import mit Validierung
+
+---
+
+## ✨ Autor
+
+[Pablo Ferreres](https://github.com/PabloFerreres)
+
+---

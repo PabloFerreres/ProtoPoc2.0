@@ -1,7 +1,6 @@
-
 # ProtoPoC
 
-**ProtoPoC** ist eine modulare Plattform zur Verwaltung, Bearbeitung und Visualisierung von Projektkomponenten (z. B. Armaturenlisten) mit vollständiger Trennung zwischen Datenimport, API und Benutzeroberfläche.
+**ProtoPoC** ist ein modulares System zur Verwaltung, Bearbeitung und Visualisierung von Projektdaten – insbesondere Armaturenlisten – auf Basis von SQLite, React, FastAPI und Excel-Importen.
 
 ---
 
@@ -9,59 +8,51 @@
 
 ```bash
 ProtoPoC/
-├── backend/             # FastAPI – REST API für Projekte & Bauteile
-├── frontend/            # React + AgGrid – UI im Excel-Stil
-├── data/                # Excel-Dateien (.xlsm)
-├── db/                  # SQLite-Datenbank
-│   └── LordOfRings.db
-├── requirements.txt     # Python-Abhängigkeiten für Backend
-└── README.md
+├── backend/             # FastAPI REST-API für Projekte & Masterdaten
+├── frontend/            # React + AgGrid – Excel-artige Web-UI
+├── import/              # Python-Skripte für Migration/Import
+├── db/                  # SQLite-Datenbank (LordOfRings.db)
+├── data/                # Original Excel-Dateien (.xlsm)
+├── README.md
+└── requirements.txt     # Python-Abhängigkeiten
 ```
 
 ---
 
 ## 🚀 Funktionen
 
-- Automatischer Import von Excel-Daten in SQLite
-- Trennung von Master- und Projekt-Bauteilen
-- API-Schnittstelle für externe Zugriffe (z. B. React-UI)
-- Web-UI im Excel-Stil mit AgGrid (Bearbeitung möglich)
-- Projektübergreifende Analyse und Revisionsplanung möglich
+- Excel-Import von `.xlsm`-Dateien mit Aufteilung in Projekt- und Mastertabellen
+- Projektansicht mit editierbaren Feldern (z. B. `Bauteil`, `Beschreibung`, `Revision`)
+- Masteransicht mit Dropdown-Auswahl für `Magische-Relevanz` und Schreibschutz für `Revision`
+- Speichern direkt in SQLite-Datenbank (`Projekt_Bauteile` & `Bauteile_Master`)
+- Web-Frontend mit AgGrid (Excel-Stil), React + Axios
+- Tabs zur Navigation zwischen Projektlisten und Masterdaten
 
 ---
 
 ## 🧑‍💻 Lokale Entwicklung
 
-### 1. Backend starten (FastAPI)
-
+### 📦 Backend starten (FastAPI)
 ```bash
 cd backend
-uvicorn main:app --reload
+uvicorn backend.main:app --reload
 ```
 
-Erreichbar unter: [http://localhost:8000](http://localhost:8000)  
-Dokumentation: [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-### 2. Frontend starten (React)
-
+### ⚛ Frontend starten (React)
 ```bash
 cd frontend
 npm install
 npm start
 ```
 
-Öffnet die Web-App unter [http://localhost:3000](http://localhost:3000)
-
 ---
 
-## 📦 Noch geplant
+## 🔄 Nächste Schritte (geplant)
 
-- Benutzerrollen & Login
-- Revisionsverfolgung mit History
-- Vergleich mehrerer Projektstände
-- Automatisierter Import mit Validierung
+- Revisionsverfolgung automatisiert (statt manuell)
+- Benutzerrollen (Admin, Viewer, Entwickler)
+- Export als Excel oder PDF
+- Historie & Änderungsverlauf pro Bauteil
 
 ---
 

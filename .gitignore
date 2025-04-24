@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+frontend/node_modules/
+frontend/node_modules/.cache/
+frontend/node_modules/.cache/**
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# IDE & System
+.idea/
+.DS_Store
+.env

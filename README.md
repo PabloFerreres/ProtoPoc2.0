@@ -1,133 +1,100 @@
-# ProtoPoC
+# ProtoPoC – Projektverwaltungssystem
 
-**ProtoPoC** ist ein modulares System zur Verwaltung, Bearbeitung und Visualisierung von Projektdaten – insbesondere Armaturenlisten – mit einer sauberen Trennung von Backend (FastAPI), Frontend (React + AgGrid) und Datenimport (Python-Skripte). Es eignet sich besonders für Teams, die mehrere technische Projekte gleichzeitig verwalten und dabei eine revisionssichere, datenbankgestützte Lösung suchen.
+## 📦 Projektüberblick
+
+Ein modulares System zur Verwaltung von Projekttabellen (Armaturenlisten) mit:
+- 💠 Zentraler Mastertabelle
+- 📋 Projektspezifischen Bauteil-Ansichten
+- 🔁 Geplanter Revisionslogik
+- ✅ AgGrid-Frontend mit FastAPI-Backend
+- 📂 SQLite Datenbank (LordOfRings.db)
 
 ---
 
-## 📁 Projektstruktur
+## 📁 Verzeichnisstruktur
 
-```bash
+```
 ProtoPoC/
-├── backend/             # FastAPI REST-API
-│   ├── main.py          # Startpunkt der API
-│   ├── api.py           # Definition aller HTTP-Endpunkte
-│   └── db.py            # Zugriff auf SQLite, alle SELECT/UPDATE-Operationen
 │
-├── frontend/            # React App mit AgGrid-UI
+├── backend/             # FastAPI Backend (startbar aus Hauptverzeichnis!)
+│   └── main.py
+│
+├── db/
+│   └── LordOfRings.db   # SQLite-Datenbank mit Projekttabellen
+│
+├── frontend/
 │   ├── src/
-│   │   ├── App.js               # Root-Komponente mit Buttons zum Ansichtswechsel
-│   │   ├── AgGridTable.jsx     # Projektliste mit Bearbeitung & Speichern
-│   │   ├── MasterTable.jsx     # Mastertabelle mit Dropdown & Save-Button
-│   │   ├── AgGridColors.css    # Styling für farbige Header
-│   │   └── index.js            # Einstiegspunkt für React
-│   └── public/index.html       # HTML-Hülle für React
+│   │   ├── AgGridTable.jsx      # Projektansicht mit Projektauswahl
+│   │   ├── MasterTable.jsx      # Masteransicht
+│   │   └── components/
+│   │       └── BaseTable.jsx    # Gemeinsame Tabellenkomponente
+│   └── package.json
 │
-├── import/              # Datenmigration und -verarbeitung
-│   ├── hash_import_lotr.py          # Importiert mehrere Excel-Sheets in SQLite mit Hash-Duplikat-Prüfung
-│   ├── generate_master_project_call_ID.py  # Erstellt Master-/Projekttrennung mit automatischen Call-IDs
-│
-├── db/                  # SQLite-Datenbank
-│   └── LordOfRings.db
-│
-├── data/                # Rohdaten aus Excel
-│   └── *.xlsm
-│
-├── README.md
-└── requirements.txt     # Python-Abhängigkeiten
+└── README.md
 ```
 
 ---
 
-## 🚀 Funktionen
+## 🚀 Startanweisungen
 
-- 🧠 Import von `.xlsm`-Dateien mit Hashprüfung (keine Duplikate)
-- 📋 Projektansicht (Bearbeitung von `Bauteil`, `Revision`, `Beschreibung`)
-- 🧱 Masteransicht mit Dropdown (`Magische-Relevanz`) & Schreibschutz (`Revision`)
-- 💾 Speicherung von Änderungen über FastAPI direkt in `LordOfRings.db`
-- 🖱 Tabs für einfache Navigation zwischen Projektlisten & Mastertabelle
-- 🔌 Vollständig getrennte Logik: Backend ↔ Frontend via HTTP
+### 📡 Backend (FastAPI)
 
----
-
-## 🧪 Lokaler Start
-
-### 🔧 Backend starten (FastAPI)
 ```bash
-cd backend
+cd ProtoPoC
 uvicorn backend.main:app --reload
 ```
-- Läuft auf: `http://localhost:8000`
-- Doku: `http://localhost:8000/docs`
 
-### ⚛ Frontend starten (React)
+> ⚠️ Achtung: **Nicht aus `backend/` heraus starten!**
+
+### 🎛 Frontend (React)
+
 ```bash
 cd frontend
-npm install
+npm install     # Nur beim ersten Mal nötig
 npm start
 ```
-- Läuft auf: `http://localhost:3000`
 
 ---
 
-## 📄 Erklärung der Hauptdateien (für Einsteiger)
+## 🔄 GitHub Synchronisation
 
-### `backend/main.py`
-- Startet FastAPI-Anwendung
-- Aktiviert CORS (damit das Frontend kommunizieren darf)
-- Bindet die API-Routen aus `api.py` ein
+### 💾 Lokale Änderungen committen
 
-### `backend/api.py`
-- Definiert die API-Endpunkte:
-  - `/projects` → Liste verfügbarer Projekte
-  - `/project/{id}` → Projektdaten abrufen
-  - `/update_row` → Projektzeile aktualisieren
-  - `/master` → Mastertabelle laden
-  - `/update_master_row` → Masterzeile speichern
+```bash
+git add .
+git commit -m "Kurze Nachricht zum Update"
+```
 
-### `backend/db.py`
-- `get_all_projects()` → gibt Projekt-IDs zurück
-- `get_project_data(projekt_id)` → macht JOIN zwischen Projekt + Master
-- `update_project_row(row)` → speichert Änderungen in `Projekt_Bauteile`
-- `get_all_master_data()` → lädt `Bauteile_Master`
-- `update_master_row_data(row)` → speichert Änderungen in `Bauteile_Master`
+### ⬆️ Änderungen hochladen
 
-### `frontend/src/App.js`
-- Zeigt die Navigation (Buttons für Projekt- & Masteransicht)
-- Bindet `AgGridTable` und `MasterTable` ein
+```bash
+git push
+```
 
-### `frontend/src/AgGridTable.jsx`
-- Zeigt Projektdaten
-- Felder editierbar (außer `call_id`, `Ort`)
-- Speichert Änderungen via `axios.post`
-
-### `frontend/src/MasterTable.jsx`
-- Zeigt statische Masterdaten
-- `Magische-Relevanz` ist Dropdown (`"", "M", "MS"`)
-- `Revision` ist geschützt
-- Speichert Änderungen mit `axios.post`
-
-### `import/hash_import_lotr.py`
-- Importiert `.xlsm`-Dateien
-- Entfernt leere Spalten & Filterzeile
-- Verhindert doppelte Zeilen durch Hashbildung
-
-### `import/generate_master_project_call_ID.py`
-- Trennt Bauteile in Master & Projektansicht
-- Erstellt `call_id` aus Herstellername + Nummerierung (z. B. `NOL001`)
+Falls Konflikte auftreten:
+- `.gitignore` → `node_modules/`, `.cache/` etc.
+- ggf. Git LFS verwenden: [https://git-lfs.github.com](https://git-lfs.github.com)
 
 ---
 
-## 📦 Geplant
+## ✅ Aktuelle Features
 
-- 🧾 Revisionsverfolgung pro Änderung
-- 👥 Rollen (Admin, Viewer, Entwickler)
-- 📤 Export als Excel/PDF
-- 🔐 Login-System für Projektmitglieder
+- ✅ Projektauswahl per Dropdown
+- ✅ Zoomfunktion mit %-Anzeige
+- ✅ AutoFit + Zeilenhöhe
+- ✅ Farbige Header nach Excel-Vorbild
+- ✅ Schutz statischer Spalten (readonly)
+- ✅ Zentrale BaseTable-Komponente
+
+---
+
+## 📌 Nächste Schritte
+
+- 🔁 Revisionslogik (Versionierung)
+- ➕ Neue Bauteile einfügen
+- 📤 Export (Excel/PDF)
+- 🔐 Login & Rollensteuerung
 
 ---
 
-## ✨ Autor
-
-[Pablo Ferreres](https://github.com/PabloFerreres)
-
----
+Projektstand: **Lauffähiger Prototyp mit klarer Struktur – bereit zur Erweiterung.**

@@ -1,21 +1,31 @@
-.ag-theme-alpine .ag-header-cell.header-group-0 {
-  background-color: #e0f7fa;
-}
-
+/* Farbige Header für jede 5. Spalte */
 .ag-theme-alpine .ag-header-cell.header-group-1 {
-  background-color: #ffe0b2;
+  background-color: #e0f7fa !important;
 }
 
 .ag-theme-alpine .ag-header-cell.header-group-2 {
-  background-color: #dcedc8;
+  background-color: #ffe0b2 !important;
 }
 
 .ag-theme-alpine .ag-header-cell.header-group-3 {
-  background-color: #f8bbd0;
+  background-color: #dcedc8 !important;
 }
 
 .ag-theme-alpine .ag-header-cell.header-group-4 {
-  background-color: #c5cae9;
+  background-color: #f8bbd0 !important;
 }
 
-/* usw. wenn du noch mehr Gruppen willst */
+.ag-theme-alpine .ag-header-cell.header-group-5 {
+  background-color: #c5cae9 !important;
+}
+
+/* Erste Spalte als Header formatieren */
+.ag-theme-alpine .ag-cell:first-child {
+  background-color: #ffcc80 !important;
+  font-weight: bold;
+}
+
+/* Optional: Hintergrundfarbe für jede Zeile */
+.ag-theme-alpine .ag-row {
+  border-bottom: 1px solid #d3d3d3; /* Graue Linien zwischen den Zeilen */
+}

@@ -1,9 +1,9 @@
 import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-grid.css";  // Standard CSS für ag-Grid
+import "ag-grid-community/styles/ag-theme-alpine.css"; // Alpine Theme für ag-Grid
+import "./AgGridColors.css";  // Verwende den relativen Pfad
 import axios from "axios";
-import "./AgGridColors.css";  // <-- wichtig!
 
 const BaseViewTable = ({
   rowData = [],
@@ -12,6 +12,8 @@ const BaseViewTable = ({
   setZoom = () => {},
   columnDefs = [],
   gridRef,
+  rowHeight,
+  saveLayout,
 }) => {
   const defaultColDef = {
     resizable: true,
@@ -25,26 +27,6 @@ const BaseViewTable = ({
     params.api.sizeColumnsToFit();
   };
 
-  const saveLayout = () => {
-    if (!gridRef.current || !gridRef.current.columnApi) return;
-
-    const columnState = gridRef.current.columnApi.getColumnState();
-    const layout = {
-      columns: {},
-      order: columnState.map((col) => col.colId),
-    };
-
-    columnState.forEach((col) => {
-      layout.columns[col.colId] = { width: col.width };
-    });
-
-    axios.post("http://localhost:8000/save_layout", {
-      projekt_id: "TestBauteile",
-      view_type: "project",
-      column_settings: layout,
-    });
-  };
-
   return (
     <div style={{ position: "relative", transform: `scale(${zoom})`, transformOrigin: "top left" }}>
       <h2>{title}</h2>
@@ -55,6 +37,7 @@ const BaseViewTable = ({
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           onGridReady={onGridReady}
+          rowHeight={rowHeight}  // Feste Zeilenhöhe anwenden
           onColumnResized={saveLayout}
           onColumnMoved={saveLayout}
         />

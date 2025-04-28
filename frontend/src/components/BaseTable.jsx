@@ -1,7 +1,7 @@
 import React from "react";
 import BaseViewTable from "./BaseViewTable";
 
-const BaseTable = ({ rowData, title, zoom, setZoom, columnDefs, gridRef }) => {
+const BaseTable = ({ rowData, title, zoom, setZoom, columnDefs, gridRef, rowHeight, saveLayout }) => {
   return (
     <BaseViewTable
       rowData={rowData}
@@ -9,7 +9,9 @@ const BaseTable = ({ rowData, title, zoom, setZoom, columnDefs, gridRef }) => {
       zoom={zoom}
       setZoom={setZoom}
       columnDefs={columnDefs}
-      gridRef={gridRef} // ✅ gridRef weiterreichen
+      gridRef={gridRef}
+      rowHeight={rowHeight}  // Weitergabe der festen Zeilenhöhe
+      saveLayout={saveLayout}  // Weitergabe der saveLayout Funktion
     />
   );
 };

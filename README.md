@@ -111,6 +111,13 @@ Alles passiert automatisch im Hintergrund — der Benutzer merkt davon nichts!
 
 ---
 
+## 🌈 Header Farbanpassungen
+### Wie wird die Farben für Header in ag-Grid angewendet?
+- Die Farben für jede 5. Spalte im **ag-Grid** werden durch **CSS-Klassen** (`header-group-1`, `header-group-2`, ...) gesetzt, wobei jede Gruppe eine unterschiedliche Farbe hat.
+- Beispiel: Erste 5 Spalten erhalten eine Farbe, die nächsten 5 eine andere usw.
+- **CSS**: Farbgebung wird durch **`AgGridColors.css`** definiert.
+
+
 ## 🎉 Highlights
 
 - 🌟 Layout bleibt erhalten, auch nach Refresh

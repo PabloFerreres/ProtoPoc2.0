@@ -1,4 +1,5 @@
 import sqlite3
+import json
 
 DB_PATH = "db/SimpleTest.db"
 
@@ -26,5 +27,35 @@ def update_row(row):
     conn.close()
     return {"status": "success", "message": "Row updated"}
 
-if __name__ == "__main__":
-    print("DB-Modul für TestBauteile bereit.")
+def save_layout(projekt_id, view_type, column_settings):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS Layouts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            projekt_id TEXT,
+            view_type TEXT,
+            column_settings TEXT
+        )
+    """)
+    cur.execute("DELETE FROM Layouts WHERE projekt_id = ? AND view_type = ?", (projekt_id, view_type))
+    cur.execute("""
+        INSERT INTO Layouts (projekt_id, view_type, column_settings)
+        VALUES (?, ?, ?)
+    """, (projekt_id, view_type, json.dumps(column_settings)))
+    conn.commit()
+    conn.close()
+    return {"status": "success", "message": "Layout gespeichert"}
+
+def load_layout(projekt_id, view_type):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT column_settings FROM Layouts
+        WHERE projekt_id = ? AND view_type = ?
+    """, (projekt_id, view_type))
+    row = cur.fetchone()
+    conn.close()
+    if row:
+        return json.loads(row[0])
+    return None

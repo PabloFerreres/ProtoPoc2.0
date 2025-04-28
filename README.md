@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ProtoPoC 2.0
 
 📕 Beschreibung
@@ -112,3 +113,6 @@ Undo/Redo bei Layout-Änderungen
 Responsive Optimierungen
 
 🙌 Viel Spaß beim Testen und Verstehen von ProtoPoC 2.0!
+=======
+# ProtoPoc2.0
+>>>>>>> c2ab596225844ec6ff75331746f30fcf8c036718

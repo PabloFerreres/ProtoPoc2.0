@@ -1,26 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import AgGridTable from "./AgGridTable";
-import MasterTable from "./MasterTable";
 
-function App() {
-  const [view, setView] = useState("project");
-
+const App = () => {
   return (
     <div>
-      <h1>ProtoPoC – Tabellenansicht</h1>
-      <div style={{ marginBottom: "16px" }}>
-        <button onClick={() => setView("project")} style={{ marginRight: 8 }}>
-          📋 Projektliste
-        </button>
-        <button onClick={() => setView("master")}>
-          🧱 Mastertabelle
-        </button>
-      </div>
-
-      {view === "project" && <AgGridTable />}
-      {view === "master" && <MasterTable />}
+      <AgGridTable />
     </div>
   );
-}
+};
 
 export default App;

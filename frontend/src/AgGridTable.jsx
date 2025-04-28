@@ -4,60 +4,33 @@ import BaseTable from "./components/BaseTable";
 
 const AgGridTable = () => {
   const [rowData, setRowData] = useState([]);
-  const [projektId, setProjektId] = useState(null);
-  const [projektListe, setProjektListe] = useState([]);
   const [zoom, setZoom] = useState(1.0);
+  const [columnDefs, setColumnDefs] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/projects").then((res) => {
-      setProjektListe(res.data);
+    axios.get("http://localhost:8000/project/TestBauteile").then((res) => {
+      setRowData(res.data);
+
       if (res.data.length > 0) {
-        setProjektId(res.data[0]);
+        const fields = Object.keys(res.data[0]);
+        setColumnDefs(
+          fields.map((field) => ({
+            field,
+            headerClass: `header-${field.replaceAll(/[^a-zA-Z0-9]/g, "_")}`,
+          }))
+        );
       }
     });
   }, []);
 
-  useEffect(() => {
-    if (projektId) {
-      axios.get(`http://localhost:8000/project/${projektId}`).then((res) => {
-        setRowData(res.data);
-      });
-    }
-  }, [projektId]);
-
   return (
     <div>
-      <div style={{ marginBottom: 10 }}>
-        <label htmlFor="projektDropdown">Projekt: </label>
-        <select
-          id="projektDropdown"
-          value={projektId || ""}
-          onChange={(e) => setProjektId(e.target.value)}
-        >
-          {projektListe.map((proj) => (
-            <option key={proj} value={proj}>
-              {proj.replaceAll("_Arma", "").replaceAll("_", " ")}
-            </option>
-          ))}
-        </select>
-      </div>
       <BaseTable
-        title="Projektansicht – Armaturenliste"
+        title="TestBauteile Tabelle"
         rowData={rowData}
         zoom={zoom}
         setZoom={setZoom}
-        nonEditableFields={[
-          "call_id",
-          "Ort",
-          "Revision",
-          "Hersteller",
-          "Material",
-          "Gewicht",
-          "Größe",
-          "Spell",
-          "Magische-Relevanz",
-        ]}
-        maxWidthMap={{ Kommentar: 500, Beschreibung: 500 }}
+        columnDefs={columnDefs}
       />
     </div>
   );

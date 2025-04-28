@@ -1,100 +1,114 @@
-# ProtoPoC – Projektverwaltungssystem
+ProtoPoC 2.0
 
-## 📦 Projektüberblick
+📕 Beschreibung
 
-Ein modulares System zur Verwaltung von Projekttabellen (Armaturenlisten) mit:
-- 💠 Zentraler Mastertabelle
-- 📋 Projektspezifischen Bauteil-Ansichten
-- 🔁 Geplanter Revisionslogik
-- ✅ AgGrid-Frontend mit FastAPI-Backend
-- 📂 SQLite Datenbank (LordOfRings.db)
+ProtoPoC 2.0 ist ein vollständiger Prototyp einer Webapplikation, die eine Datenbanktabelle in einem Browser visuell und dynamisch anzeigt.
 
----
+Das Ziel:
 
-## 📁 Verzeichnisstruktur
+Einfaches Bearbeiten und Anpassen der Tabellenansicht
 
-```
-ProtoPoC/
-│
-├── backend/             # FastAPI Backend (startbar aus Hauptverzeichnis!)
-│   └── main.py
-│
+Layout änderungen (Spalten verschieben, Spaltenbreiten ändern) speichern
+
+Beim Neuladen automatisch das gespeicherte Layout anwenden
+
+Dieses Projekt eignet sich besonders gut für Anfänger, die FastAPI (Backend) und React + ag-Grid (Frontend) verstehen möchten.
+
+📊 Projektstruktur
+
+ProtoPoC2.0/
+├── backend/
+│   ├── main.py         # FastAPI Serverstart
+│   ├── api.py          # API-Endpunkte (Daten holen/speichern)
+│   └── db.py           # Datenbankzugriffe (SQLite)
 ├── db/
-│   └── LordOfRings.db   # SQLite-Datenbank mit Projekttabellen
-│
+│   └── SimpleTest.db   # SQLite Testdatenbank
 ├── frontend/
-│   ├── src/
-│   │   ├── AgGridTable.jsx      # Projektansicht mit Projektauswahl
-│   │   ├── MasterTable.jsx      # Masteransicht
-│   │   └── components/
-│   │       └── BaseTable.jsx    # Gemeinsame Tabellenkomponente
-│   └── package.json
-│
-└── README.md
-```
+│   └── src/
+│       ├── App.js              # Einstiegspunkt der React-App
+│       ├── AgGridTable.jsx     # Tabelle + API-Anbindung
+│       └── components/
+│           ├── BaseTable.jsx       # Wrapper-Komponente für Tabellenlayout
+│           ├── BaseViewTable.jsx   # Ag-Grid Tabelle mit Farben und Layout-Logik
+│           └── AgGridColors.css    # Header-Farbgebung für jede 5 Spalten
 
----
+🌌 Technologien
 
-## 🚀 Startanweisungen
+Backend: FastAPI 🔢
 
-### 📡 Backend (FastAPI)
+FastAPI: Ein leichtgewichtiges, schnelles Framework für Web-APIs.
 
-```bash
-cd ProtoPoC
-uvicorn backend.main:app --reload
-```
+SQLite: Eine kleine lokale Datenbank.
 
-> ⚠️ Achtung: **Nicht aus `backend/` heraus starten!**
+Funktionen:
 
-### 🎛 Frontend (React)
+/project/TestBauteile holt alle Daten aus der Tabelle.
 
-```bash
+/save_layout speichert Spaltenanpassungen.
+
+/layout/TestBauteile lädt gespeicherte Layout-Daten.
+
+Frontend: React + ag-Grid 📈
+
+React: JavaScript-Framework für UI-Entwicklung.
+
+ag-Grid: Profi-Datentabelle mit Features wie:
+
+Spalten anpassen, sortieren, filtern
+
+Sehr performant für viele Daten
+
+Interaktion:
+
+AgGridTable.jsx kommuniziert per Axios mit dem Backend.
+
+Tabelle wird in BaseViewTable.jsx gerendert (ag-Grid-Komponente).
+
+Farblogik: Jede 5 Spalten erhalten dieselbe Headerfarbe zur besseren Übersicht (gesteuert über AgGridColors.css).
+
+🚀 Schnellstart
+
+1. Backend starten (FastAPI)
+
+cd backend
+uvicorn main:app --reload
+
+Server läuft auf: http://localhost:8000
+
+2. Frontend starten (React)
+
 cd frontend
-npm install     # Nur beim ersten Mal nötig
+npm install
 npm start
-```
 
----
+Frontend läuft auf: http://localhost:3000
 
-## 🔄 GitHub Synchronisation
+📅 Funktionsweise (für Anfänger erklärt)
 
-### 💾 Lokale Änderungen committen
+Beim Öffnen der Seite ruft das Frontend alle Datensätze aus der Datenbank ab (API /project/TestBauteile).
 
-```bash
-git add .
-git commit -m "Kurze Nachricht zum Update"
-```
+Wenn der Nutzer Spalten verschiebt oder die Größe ändert, werden diese Änderungen automatisch gespeichert (API /save_layout).
 
-### ⬆️ Änderungen hochladen
+Beim nächsten Laden ruft das Frontend das gespeicherte Layout ab (API /layout/TestBauteile) und wendet es auf die Tabelle an.
 
-```bash
-git push
-```
+Alles passiert automatisch im Hintergrund — der Benutzer merkt davon nichts!
 
-Falls Konflikte auftreten:
-- `.gitignore` → `node_modules/`, `.cache/` etc.
-- ggf. Git LFS verwenden: [https://git-lfs.github.com](https://git-lfs.github.com)
+🎉 Highlights
 
----
+🌟 Layout bleibt erhalten, auch nach Refresh
 
-## ✅ Aktuelle Features
+🛢️ Farben für bessere Spaltenübersicht
 
-- ✅ Projektauswahl per Dropdown
-- ✅ Zoomfunktion mit %-Anzeige
-- ✅ AutoFit + Zeilenhöhe
-- ✅ Farbige Header nach Excel-Vorbild
-- ✅ Schutz statischer Spalten (readonly)
-- ✅ Zentrale BaseTable-Komponente
+🛠️ Vollständig modularer Aufbau (Backend/Frontend getrennt)
 
----
+📊 Ideal für Einsteiger
 
-## 📌 Nächste Schritte
+📅 TODO (optional für Zukunft)
 
-- 🔁 Revisionslogik (Versionierung)
-- ➕ Neue Bauteile einfügen
-- 📤 Export (Excel/PDF)
-- 🔐 Login & Rollensteuerung
+Zellen direkt im Grid editierbar machen
 
----
+Undo/Redo bei Layout-Änderungen
 
-Projektstand: **Lauffähiger Prototyp mit klarer Struktur – bereit zur Erweiterung.**
+Responsive Optimierungen
+
+🙌 Viel Spaß beim Testen und Verstehen von ProtoPoC 2.0!

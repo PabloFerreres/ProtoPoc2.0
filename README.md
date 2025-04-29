@@ -1,138 +1,108 @@
+# ProtoPoC - Custom Excel-Style Table
 
-# ProtoPoC 2.0
+## 📕 Projektbeschreibung
 
-## 📕 Beschreibung
-
-ProtoPoC 2.0 ist ein vollständiger Prototyp einer Webapplikation, die eine Datenbanktabelle in einem Browser visuell und dynamisch anzeigt.
-
-Das Ziel:
-
-- Einfaches Bearbeiten und Anpassen der Tabellenansicht
-- Layout änderungen (Spalten verschieben, Spaltenbreiten ändern) speichern
-- Beim Neuladen automatisch das gespeicherte Layout anwenden
-
-Dieses Projekt eignet sich besonders gut für Anfänger, die **FastAPI** (Backend) und **React + ag-Grid** (Frontend) verstehen möchten.
+Dieses Projekt zeigt eine moderne Webanwendung zur Visualisierung von Tabellendaten mit **ag-Grid** und **React**,  
+erweitert um **eigene Filterfunktionen**, **Filterstatus-Anzeige** und **Filter-Reset**.
 
 ---
 
-## 📊 Projektstruktur
+## 🌟 Features
 
-```
-ProtoPoC2.0/
-├── backend/
-│   ├── main.py         # FastAPI Serverstart
-│   ├── api.py          # API-Endpunkte (Daten holen/speichern)
-│   └── db.py           # Datenbankzugriffe (SQLite)
-├── db/
-│   └── SimpleTest.db   # SQLite Testdatenbank
-├── frontend/
-│   └── src/
-│       ├── App.js              # Einstiegspunkt der React-App
-│       ├── AgGridTable.jsx     # Tabelle + API-Anbindung
-│       └── components/
-│           ├── BaseTable.jsx       # Wrapper-Komponente für Tabellenlayout
-│           ├── BaseViewTable.jsx   # Ag-Grid Tabelle mit Farben und Layout-Logik
-│           └── AgGridColors.css    # Header-Farbgebung für jede 5 Spalten
-```
+- **Custom Excel-Style Filter**:
+  - Eigene Checkboxen für jede Spalte.
+  - Auswahl einzelner Werte oder "Alle auswählen/abwählen".
+  - Sofortige Filteraktualisierung ohne Verzögerung.
+
+- **Filter-Status-Anzeige**:
+  - Grün: Kein Filter aktiv ✅
+  - Rot: Mindestens ein Filter aktiv ⚠️
+  - Dynamische Aktualisierung basierend auf Benutzeraktionen.
+
+- **Filter-Reset-Button**:
+  - Ein Klick löscht alle gesetzten Filter.
+  - Tabelle zeigt wieder alle ursprünglichen Daten.
+
+- **Modulares System**:
+  - `BaseViewTable.jsx` für Layout und Steuerung.
+  - `CustomSetFilter.jsx` für individuelles Filtern.
+  - `FilterStatus.jsx` für Status- und Reset-Steuerung.
+  
+- **Weitere Features**:
+  - Farben und Hover-Effekte im Header.
+  - AutoSize-Button für automatische Spaltenbreitenanpassung.
+  - Zoom-Funktion (Skalierung der Tabelle).
 
 ---
 
-## 🌌 Technologien
+## 🛠 Technologien
 
-### Backend: FastAPI 🔢
+- **Frontend**: React, ag-Grid Community Edition
+- **Styles**: CSS (ag-Grid Alpine Theme + eigene Anpassungen)
+- **Struktur**: Vollständig modulare Komponentenstruktur
 
-- **FastAPI**: Ein leichtgewichtiges, schnelles Framework für Web-APIs.
-- **SQLite**: Eine kleine lokale Datenbank.
-- Funktionen:
-  - `/project/TestBauteile` holt alle Daten aus der Tabelle.
-  - `/save_layout` speichert Spaltenanpassungen.
-  - `/layout/TestBauteile` lädt gespeicherte Layout-Daten.
+---
 
-### Frontend: React + ag-Grid 📈
+## 📂 Projektstruktur
 
-- **React**: JavaScript-Framework für UI-Entwicklung.
-- **ag-Grid**: Profi-Datentabelle mit Features wie:
-  - Spalten anpassen, sortieren, filtern
-  - Sehr performant für viele Daten
-
-**Interaktion:**
-
-- `AgGridTable.jsx` kommuniziert per **Axios** mit dem Backend.
-- Tabelle wird in `BaseViewTable.jsx` gerendert (ag-Grid-Komponente).
-- Farblogik: Jede 5 Spalten erhalten dieselbe Headerfarbe zur besseren Übersicht (gesteuert über `AgGridColors.css`).
+```
+/src
+├── components
+│   ├── BaseViewTable.jsx      # Haupt-Komponente für Tabellenlayout und Steuerung
+│   ├── CustomSetFilter.jsx     # Eigener Checkbox-Filter
+│   ├── FilterStatus.jsx        # Filterstatus-Anzeige mit Reset-Button
+│   └── AgGridColors.css        # Farbgestaltung für Header-Zellen
+├── App.js                      # Einstiegspunkt der React-App
+├── index.js                    # ReactDOM Renderpunkt
+```
 
 ---
 
 ## 🚀 Schnellstart
 
-### 1. Backend starten (FastAPI)
+1. **Projekt klonen:**
 
 ```bash
-cd backend
-uvicorn main:app --reload
+git clone https://github.com/DEIN_USERNAME/ProtoPoC-CustomFilter.git
+cd ProtoPoC-CustomFilter
 ```
-Server läuft auf: [http://localhost:8000](http://localhost:8000)
 
-### 2. Frontend starten (React)
+2. **Abhängigkeiten installieren:**
 
 ```bash
-cd frontend
 npm install
+```
+
+3. **Projekt starten:**
+
+```bash
 npm start
 ```
+
 Frontend läuft auf: [http://localhost:3000](http://localhost:3000)
 
-### 3. GitHub Synchronisation (Projekt hochladen)
+---
 
-- Lokales Projekt initialisieren (falls noch nicht geschehen):
+## 📅 Wie funktioniert der Filter?
 
-```bash
-git init
-git remote add origin https://github.com/DEIN_USERNAME/ProtoPoC2.0.git
-```
-
-- Alle Änderungen hinzufügen und hochladen:
-
-```bash
-git add .
-git commit -m "Erster Commit für ProtoPoC2.0"
-git push -u origin main
-```
+- Jeder Spaltenfilter basiert auf einem **Checkbox-Menü**.
+- Beim An-/Abwählen wird die Tabelle **sofort aktualisiert**.
+- Die **FilterStatus-Komponente** zeigt live an, ob Filter aktiv sind.
+- Über den **„Filter zurücksetzen“-Button** werden alle Filter entfernt.
 
 ---
 
-## 📅 Funktionsweise (für Anfänger erklärt)
+## 🎯 TODO (Optionale Erweiterungen)
 
-- Beim Öffnen der Seite ruft das Frontend alle Datensätze aus der Datenbank ab (API `/project/TestBauteile`).
-- Wenn der Nutzer Spalten verschiebt oder die Größe ändert, werden diese Änderungen automatisch gespeichert (API `/save_layout`).
-- Beim nächsten Laden ruft das Frontend das gespeicherte Layout ab (API `/layout/TestBauteile`) und wendet es auf die Tabelle an.
-
-Alles passiert automatisch im Hintergrund — der Benutzer merkt davon nichts!
+- Suchfeld im Filter-Menü integrieren 🔍
+- Filter-Status schöner animieren
+- Unterstützung für mehrere Filter kombinieren (UND/ODER)
 
 ---
 
-## 🌈 Header Farbanpassungen
-### Wie wird die Farben für Header in ag-Grid angewendet?
-- Die Farben für jede 5. Spalte im **ag-Grid** werden durch **CSS-Klassen** (`header-group-1`, `header-group-2`, ...) gesetzt, wobei jede Gruppe eine unterschiedliche Farbe hat.
-- Beispiel: Erste 5 Spalten erhalten eine Farbe, die nächsten 5 eine andere usw.
-- **CSS**: Farbgebung wird durch **`AgGridColors.css`** definiert.
+## 🙌 Vielen Dank für deine Zeit!
 
+Dieses Projekt ist bewusst modular und sauber strukturiert,  
+damit es leicht erweitert oder angepasst werden kann.
 
-## 🎉 Highlights
-
-- 🌟 Layout bleibt erhalten, auch nach Refresh
-- 🛢️ Farben für bessere Spaltenübersicht
-- 🛠️ Vollständig modularer Aufbau (Backend/Frontend getrennt)
-- 📊 Ideal für Einsteiger
-
----
-
-## 📅 TODO (optional für Zukunft)
-
-- Zellen direkt im Grid editierbar machen
-- Undo/Redo bei Layout-Änderungen
-- Responsive Optimierungen
-
----
-
-## 🙌 Viel Spaß beim Testen und Verstehen von ProtoPoC 2.0!
+**Viel Spaß beim Weiterentwickeln! 🚀**

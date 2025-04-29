@@ -21,11 +21,22 @@
 
 /* Erste Spalte als Header formatieren */
 .ag-theme-alpine .ag-cell:first-child {
-  background-color: #ffcc80 !important;
+  background-color: #ddcaca !important;
+
   font-weight: bold;
 }
 
 /* Optional: Hintergrundfarbe für jede Zeile */
 .ag-theme-alpine .ag-row {
   border-bottom: 1px solid #d3d3d3; /* Graue Linien zwischen den Zeilen */
+}
+
+/* Vertikale Linien zwischen den Spalten */
+.ag-theme-alpine .ag-cell {
+  border-right: 1px solid #d3d3d3; /* feine graue Linie zwischen Zellen */
+}
+
+/* Optional: auch vertikale Linie im Header */
+.ag-theme-alpine .ag-header-cell {
+  border-right: 1px solid #b0b0b0; /* leicht dunklere Linie im Header */
 }
